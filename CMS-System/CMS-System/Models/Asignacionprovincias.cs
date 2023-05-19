@@ -14,5 +14,7 @@ namespace CMS_System.Models
         public string Codcanton { get; set; }
         public string Codmantenimiento { get; set; }
         public string Codusermod { get; set; }
+        public DateTime? Fechainicio { get; set; }
+        public DateTime? Fechamod { get; set; }
     }
 }

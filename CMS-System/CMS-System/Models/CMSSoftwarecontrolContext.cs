@@ -92,6 +92,14 @@ namespace CMS_System.Models
                     .HasMaxLength(25)
                     .IsUnicode(false)
                     .HasColumnName("codusermod");
+
+                entity.Property(e => e.Fechainicio)
+                    .HasColumnType("datetime")
+                    .HasColumnName("fechainicio");
+
+                entity.Property(e => e.Fechamod)
+                    .HasColumnType("datetime")
+                    .HasColumnName("fechamod");
             });
 
             modelBuilder.Entity<Empresa>(entity =>
