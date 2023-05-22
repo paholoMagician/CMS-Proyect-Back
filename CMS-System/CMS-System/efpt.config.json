@@ -15,11 +15,19 @@
    "SelectedToBeGenerated": 0,
    "Tables": [
       {
+         "Name": "[dbo].[agencia]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[asignacionprovincias]",
          "ObjectType": 0
       },
       {
          "Name": "[dbo].[asignModUser]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[cliente]",
          "ObjectType": 0
       },
       {
