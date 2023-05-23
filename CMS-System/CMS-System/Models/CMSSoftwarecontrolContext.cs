@@ -35,7 +35,7 @@ namespace CMS_System.Models
             modelBuilder.Entity<Agencia>(entity =>
             {
                 entity.HasKey(e => e.Codagencia)
-                    .HasName("PK_agencia1");
+                    .HasName("PK_agencia1_1");
 
                 entity.ToTable("agencia");
 
@@ -51,8 +51,20 @@ namespace CMS_System.Models
                     .IsUnicode(false)
                     .HasColumnName("campoB");
 
-                entity.Property(e => e.Codcia)
+                entity.Property(e => e.CodCanton)
                     .HasMaxLength(5)
+                    .IsUnicode(false)
+                    .HasColumnName("codCanton")
+                    .IsFixedLength();
+
+                entity.Property(e => e.CodProv)
+                    .HasMaxLength(5)
+                    .IsUnicode(false)
+                    .HasColumnName("codProv")
+                    .IsFixedLength();
+
+                entity.Property(e => e.Codcia)
+                    .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("codcia");
 
@@ -78,10 +90,25 @@ namespace CMS_System.Models
 
                 entity.Property(e => e.Estado).HasColumnName("estado");
 
-                entity.Property(e => e.Horarioatencion)
+                entity.Property(e => e.Horarioatenciond)
                     .HasMaxLength(20)
                     .IsUnicode(false)
-                    .HasColumnName("horarioatencion");
+                    .HasColumnName("horarioatenciond");
+
+                entity.Property(e => e.Horarioatenciondm)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("horarioatenciondm");
+
+                entity.Property(e => e.Horarioatencionh)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("horarioatencionh");
+
+                entity.Property(e => e.Horarioatencionhm)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("horarioatencionhm");
 
                 entity.Property(e => e.Latitud)
                     .HasMaxLength(80)
@@ -185,7 +212,7 @@ namespace CMS_System.Models
             modelBuilder.Entity<Cliente>(entity =>
             {
                 entity.HasKey(e => e.Codcliente)
-                    .HasName("PK_cliente1");
+                    .HasName("PK_cliente1_1");
 
                 entity.ToTable("cliente");
 
@@ -195,7 +222,7 @@ namespace CMS_System.Models
                     .HasColumnName("codcliente");
 
                 entity.Property(e => e.Codcia)
-                    .HasMaxLength(5)
+                    .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("codcia");
 

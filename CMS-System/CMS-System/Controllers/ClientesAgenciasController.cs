@@ -74,12 +74,83 @@ namespace CMS_System.Controllers
 
         }
 
+        [HttpGet("eliminarAgencia/{codagencia}/{codcia}")]
+        public async Task<IActionResult> eliminarAgencia([FromRoute] string codagencia, [FromRoute] string codcia )
+        {
+
+            string Sentencia = " delete from agencia where codagencia = @ccagen and codcia = @ccia ";
+
+            DataTable dt = new DataTable();
+            using (SqlConnection connection = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(Sentencia, connection))
+                {
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    adapter.SelectCommand.CommandType = CommandType.Text;
+                    adapter.SelectCommand.Parameters.Add(new SqlParameter("@ccagen", codagencia));
+                    adapter.SelectCommand.Parameters.Add(new SqlParameter("@ccia", codcia));
+                    adapter.Fill(dt);
+                }
+            }
+
+            if (dt == null)
+            {
+                return NotFound("No se ha podido crear...");
+            }
+
+            return Ok(dt);
+
+        }
+        
+        [HttpGet("obtenerAgencias/{codcia}")]
+        public async Task<IActionResult> obtenerAgencias([FromRoute] string codcia )
+        {
+
+            string Sentencia = " exec ObtenerAgencias @ccia ";
+
+            DataTable dt = new DataTable();
+            using (SqlConnection connection = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(Sentencia, connection))
+                {
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    adapter.SelectCommand.CommandType = CommandType.Text;
+                    adapter.SelectCommand.Parameters.Add(new SqlParameter("@ccia", codcia));
+                    adapter.Fill(dt);
+                }
+            }
+
+            if (dt == null)
+            {
+                return NotFound("No se ha podido crear...");
+            }
+
+            return Ok(dt);
+
+        }
+
+        [HttpPut]
+        [Route("EditarAgencia/{codagencia}/{ccia}")]
+        public async Task<IActionResult> EditarAgencia([FromRoute] string codagencia, [FromRoute] string ccia, [FromBody] Agencia model)
+        {
+
+            if (codagencia != model.Codagencia && ccia != model.Codcia)
+            {
+                return BadRequest("No existe el usuario");
+            }
+
+            _context.Entry(model).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return Ok(model);
+
+        }
+
         [HttpPut]
         [Route("EditarCliente/{codcli}/{ccia}")]
         public async Task<IActionResult> EditarCliente([FromRoute] string codcli, [FromRoute] string ccia, [FromBody] Cliente model)
         {
 
-            if (codcli != model.Codcliente)
+            if (codcli != model.Codcliente && ccia != model.Codcia)
             {
                 return BadRequest("No existe el usuario");
             }

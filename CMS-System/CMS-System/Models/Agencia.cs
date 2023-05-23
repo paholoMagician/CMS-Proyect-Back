@@ -17,10 +17,15 @@ namespace CMS_System.Models
         public int? CampoA { get; set; }
         public string CampoB { get; set; }
         public string Codcliente { get; set; }
-        public string Horarioatencion { get; set; }
+        public string Horarioatenciond { get; set; }
         public string Codfrecuencia { get; set; }
         public string Codcia { get; set; }
         public int? Estado { get; set; }
         public string Codmachine { get; set; }
+        public string CodProv { get; set; }
+        public string CodCanton { get; set; }
+        public string Horarioatencionh { get; set; }
+        public string Horarioatenciondm { get; set; }
+        public string Horarioatencionhm { get; set; }
     }
 }
