@@ -43,6 +43,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[FileControl]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[imgfile]",
          "ObjectType": 0
       },

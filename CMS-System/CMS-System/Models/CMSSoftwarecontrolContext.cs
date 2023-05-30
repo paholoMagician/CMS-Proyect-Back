@@ -25,6 +25,7 @@ namespace CMS_System.Models
         public virtual DbSet<Auditoria> Auditoria { get; set; }
         public virtual DbSet<Cliente> Cliente { get; set; }
         public virtual DbSet<Empresa> Empresa { get; set; }
+        public virtual DbSet<FileControl> FileControl { get; set; }
         public virtual DbSet<Imgfile> Imgfile { get; set; }
         public virtual DbSet<Maquinaria> Maquinaria { get; set; }
         public virtual DbSet<MasterTable> MasterTable { get; set; }
@@ -440,6 +441,30 @@ namespace CMS_System.Models
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("telf2");
+            });
+
+            modelBuilder.Entity<FileControl>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Coduser)
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
+                    .HasColumnName("coduser");
+
+                entity.Property(e => e.Fecrea)
+                    .HasColumnType("datetime")
+                    .HasColumnName("fecrea");
+
+                entity.Property(e => e.Tipo)
+                    .HasMaxLength(150)
+                    .IsUnicode(false)
+                    .HasColumnName("tipo");
+
+                entity.Property(e => e.Url)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("url");
             });
 
             modelBuilder.Entity<Imgfile>(entity =>
