@@ -70,34 +70,55 @@ namespace CMS_System.Controllers
 
         }
 
+        //[HttpGet("GetUser/{userCod}")]
+        //public async Task<IActionResult> GetModulos([FromRoute] string userCod)
+        //{
+
+        //    string Sentencia = " select a.cod_user, b.* from asignModUser as a " +
+        //                       " left join modulo as b on a.cod_mod = b.id " +
+        //                       " where a.cod_user = @usCod order by order_mod asc ";
+
+        //    DataTable dt = new DataTable();
+        //    using (SqlConnection connection = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
+        //    {
+        //        using (SqlCommand cmd = new SqlCommand(Sentencia, connection))
+        //        {
+        //            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        //            adapter.SelectCommand.CommandType = CommandType.Text;
+        //            adapter.SelectCommand.Parameters.Add(new SqlParameter("@usCod", userCod));
+        //            adapter.Fill(dt);
+        //        }
+        //    }
+
+        //    if (dt == null)
+        //    {
+        //        return NotFound("No se encontro este WebUser...");
+        //    }
+
+        //    return Ok(dt);
+
+        //}
+
         [HttpGet("GetUser/{userCod}")]
-        public async Task<IActionResult> GetModulos([FromRoute] string userCod)
+        public async Task<IActionResult> GetUser([FromRoute] string userCod)
         {
+            var query = from a in _context.AsignModUser
+                        join b in _context.Modulo on a.CodMod equals b.Id.ToString()
+                        where a.CodUser == userCod
+                        orderby a.OrderMod ascending
+                        //orderby b.OrderMod ascending
+                        select new { a.CodUser, b };
 
-            string Sentencia = " select a.cod_user, b.* from asignModUser as a " +
-                               " left join modulo as b on a.cod_mod = b.id " +
-                               " where a.cod_user = @usCod order by order_mod asc ";
+            var result = await query.ToListAsync();
 
-            DataTable dt = new DataTable();
-            using (SqlConnection connection = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
+            if (result == null)
             {
-                using (SqlCommand cmd = new SqlCommand(Sentencia, connection))
-                {
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    adapter.SelectCommand.CommandType = CommandType.Text;
-                    adapter.SelectCommand.Parameters.Add(new SqlParameter("@usCod", userCod));
-                    adapter.Fill(dt);
-                }
+                return NotFound("No se encontró este WebUser...");
             }
 
-            if (dt == null)
-            {
-                return NotFound("No se encontro este WebUser...");
-            }
-
-            return Ok(dt);
-
+            return Ok(result);
         }
+
 
         [HttpGet("eliminarUsuario/{userCod}/{codcia}")]
         public async Task<IActionResult> eliminarUsuario([FromRoute] string userCod, [FromRoute] string codcia)

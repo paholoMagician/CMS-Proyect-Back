@@ -78,3 +78,10 @@ C:\Users\pahol\OneDrive\Desktop\CMS-Proyect\CMS-Proyect-Back\CMS-System\CMS-Syst
 C:\Users\pahol\OneDrive\Desktop\CMS-Proyect\CMS-Proyect-Back\CMS-System\CMS-System\obj\Debug\net6.0\CMS-System.pdb
 C:\Users\pahol\OneDrive\Desktop\CMS-Proyect\CMS-Proyect-Back\CMS-System\CMS-System\obj\Debug\net6.0\CMS-System.genruntimeconfig.cache
 C:\Users\pahol\OneDrive\Desktop\CMS-Proyect\CMS-Proyect-Back\CMS-System\CMS-System\obj\Debug\net6.0\ref\CMS-System.dll
+C:\Users\pahol\OneDrive\Desktop\CMS-Proyect\CMS-Proyect-Back\CMS-System\CMS-System\bin\Debug\net6.0\Microsoft.AspNetCore.Connections.Abstractions.dll
+C:\Users\pahol\OneDrive\Desktop\CMS-Proyect\CMS-Proyect-Back\CMS-System\CMS-System\bin\Debug\net6.0\Microsoft.AspNetCore.SignalR.Common.dll
+C:\Users\pahol\OneDrive\Desktop\CMS-Proyect\CMS-Proyect-Back\CMS-System\CMS-System\bin\Debug\net6.0\Microsoft.Extensions.Features.dll
+C:\Users\pahol\OneDrive\Desktop\CMS-Proyect\CMS-Proyect-Back\CMS-System\CMS-System\bin\Debug\net6.0\System.IO.Pipelines.dll
+C:\Users\pahol\OneDrive\Desktop\CMS-Proyect\CMS-Proyect-Back\CMS-System\CMS-System\bin\Debug\net6.0\System.Text.Encodings.Web.dll
+C:\Users\pahol\OneDrive\Desktop\CMS-Proyect\CMS-Proyect-Back\CMS-System\CMS-System\bin\Debug\net6.0\System.Text.Json.dll
+C:\Users\pahol\OneDrive\Desktop\CMS-Proyect\CMS-Proyect-Back\CMS-System\CMS-System\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll

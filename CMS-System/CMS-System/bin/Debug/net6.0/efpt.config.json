@@ -19,11 +19,19 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[asignacionmaquinaria]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[asignacionprovincias]",
          "ObjectType": 0
       },
       {
          "Name": "[dbo].[asignModUser]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[auditoria]",
          "ObjectType": 0
       },
       {
@@ -36,6 +44,10 @@
       },
       {
          "Name": "[dbo].[imgfile]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[maquinaria]",
          "ObjectType": 0
       },
       {

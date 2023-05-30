@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
+using Microsoft.AspNetCore.SignalR;
+using CMS_System.Signal;
 
 namespace CMS_System.Controllers
 {
@@ -13,10 +15,12 @@ namespace CMS_System.Controllers
     {
 
         private readonly CMSSoftwarecontrolContext _context;
+        private readonly IHubContext<ChatHub> _hubContext;
 
-        public ClientesAgenciasController(CMSSoftwarecontrolContext context)
+        public ClientesAgenciasController(CMSSoftwarecontrolContext context, IHubContext<ChatHub> hubContext)
         {
             _context = context;
+            _hubContext = hubContext;
         }
 
         [HttpGet("obtenerClientes/{ccia}")]
@@ -165,6 +169,12 @@ namespace CMS_System.Controllers
         [Route("guardarCliente")]
         public async Task<IActionResult> guardarCliente([FromBody] Cliente model)
         {
+
+            if (_context.Cliente.Any(c => c.Ruc == model.Ruc))
+            {
+                return BadRequest("El RUC ya está registrado");
+            }   
+
             if (ModelState.IsValid)
             {
                 _context.Cliente.Add(model);

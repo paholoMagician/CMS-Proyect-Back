@@ -20,10 +20,13 @@ namespace CMS_System.Models
 
         public virtual DbSet<Agencia> Agencia { get; set; }
         public virtual DbSet<AsignModUser> AsignModUser { get; set; }
+        public virtual DbSet<Asignacionmaquinaria> Asignacionmaquinaria { get; set; }
         public virtual DbSet<Asignacionprovincias> Asignacionprovincias { get; set; }
+        public virtual DbSet<Auditoria> Auditoria { get; set; }
         public virtual DbSet<Cliente> Cliente { get; set; }
         public virtual DbSet<Empresa> Empresa { get; set; }
         public virtual DbSet<Imgfile> Imgfile { get; set; }
+        public virtual DbSet<Maquinaria> Maquinaria { get; set; }
         public virtual DbSet<MasterTable> MasterTable { get; set; }
         public virtual DbSet<Modulo> Modulo { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
@@ -161,6 +164,45 @@ namespace CMS_System.Models
                 entity.Property(e => e.State).HasColumnName("state");
             });
 
+            modelBuilder.Entity<Asignacionmaquinaria>(entity =>
+            {
+                entity.ToTable("asignacionmaquinaria");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Codagencia)
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
+                    .HasColumnName("codagencia");
+
+                entity.Property(e => e.Codcia)
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
+                    .HasColumnName("codcia");
+
+                entity.Property(e => e.Codcli)
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
+                    .HasColumnName("codcli");
+
+                entity.Property(e => e.Codmaquina)
+                    .IsRequired()
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
+                    .HasColumnName("codmaquina");
+
+                entity.Property(e => e.Codusercrea)
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
+                    .HasColumnName("codusercrea");
+
+                entity.Property(e => e.Estadomaquin).HasColumnName("estadomaquin");
+
+                entity.Property(e => e.Feccrea)
+                    .HasColumnType("datetime")
+                    .HasColumnName("feccrea");
+            });
+
             modelBuilder.Entity<Asignacionprovincias>(entity =>
             {
                 entity.ToTable("asignacionprovincias");
@@ -209,9 +251,56 @@ namespace CMS_System.Models
                     .HasColumnName("fechamod");
             });
 
+            modelBuilder.Entity<Auditoria>(entity =>
+            {
+                entity.HasKey(e => e.Codaudit);
+
+                entity.ToTable("auditoria");
+
+                entity.Property(e => e.Codaudit)
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
+                    .HasColumnName("codaudit");
+
+                entity.Property(e => e.Accion)
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
+                    .HasColumnName("accion");
+
+                entity.Property(e => e.Cod)
+                    .HasMaxLength(10)
+                    .HasColumnName("cod")
+                    .IsFixedLength();
+
+                entity.Property(e => e.Codmodulo).HasColumnName("codmodulo");
+
+                entity.Property(e => e.Codusuario)
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
+                    .HasColumnName("codusuario");
+
+                entity.Property(e => e.Fecfinal)
+                    .HasColumnType("datetime")
+                    .HasColumnName("fecfinal");
+
+                entity.Property(e => e.Fecinteraccion)
+                    .HasColumnType("datetime")
+                    .HasColumnName("fecinteraccion");
+
+                entity.Property(e => e.Informacion)
+                    .HasMaxLength(1000)
+                    .IsUnicode(false)
+                    .HasColumnName("informacion");
+
+                entity.Property(e => e.Ip)
+                    .HasMaxLength(150)
+                    .IsUnicode(false)
+                    .HasColumnName("ip");
+            });
+
             modelBuilder.Entity<Cliente>(entity =>
             {
-                entity.HasKey(e => e.Codcliente)
+                entity.HasKey(e => new { e.Codcliente, e.Ruc })
                     .HasName("PK_cliente1_1");
 
                 entity.ToTable("cliente");
@@ -221,12 +310,18 @@ namespace CMS_System.Models
                     .IsUnicode(false)
                     .HasColumnName("codcliente");
 
+                entity.Property(e => e.Ruc)
+                    .HasMaxLength(25)
+                    .IsUnicode(false)
+                    .HasColumnName("ruc");
+
                 entity.Property(e => e.Codcia)
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("codcia");
 
                 entity.Property(e => e.Coduser)
+                    .IsRequired()
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("coduser");
@@ -259,6 +354,16 @@ namespace CMS_System.Models
                     .IsUnicode(false)
                     .HasColumnName("nombre");
 
+                entity.Property(e => e.NombreMantenimiento)
+                    .HasMaxLength(150)
+                    .IsUnicode(false)
+                    .HasColumnName("nombreMantenimiento");
+
+                entity.Property(e => e.NombrePago)
+                    .HasMaxLength(150)
+                    .IsUnicode(false)
+                    .HasColumnName("nombrePago");
+
                 entity.Property(e => e.Observacion)
                     .HasMaxLength(500)
                     .IsUnicode(false)
@@ -268,11 +373,6 @@ namespace CMS_System.Models
                     .HasMaxLength(150)
                     .IsUnicode(false)
                     .HasColumnName("replegal");
-
-                entity.Property(e => e.Ruc)
-                    .HasMaxLength(25)
-                    .IsUnicode(false)
-                    .HasColumnName("ruc");
 
                 entity.Property(e => e.Telfclimanteni)
                     .HasMaxLength(20)
@@ -362,6 +462,73 @@ namespace CMS_System.Models
                     .HasMaxLength(500)
                     .IsUnicode(false)
                     .HasColumnName("urlruta");
+            });
+
+            modelBuilder.Entity<Maquinaria>(entity =>
+            {
+                entity.HasKey(e => e.Codmaquina);
+
+                entity.ToTable("maquinaria");
+
+                entity.Property(e => e.Codmaquina)
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
+                    .HasColumnName("codmaquina");
+
+                entity.Property(e => e.Codcia)
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
+                    .HasColumnName("codcia");
+
+                entity.Property(e => e.Codigobp)
+                    .HasMaxLength(150)
+                    .IsUnicode(false)
+                    .HasColumnName("codigobp");
+
+                entity.Property(e => e.Codtipomaquina)
+                    .HasMaxLength(5)
+                    .IsUnicode(false)
+                    .HasColumnName("codtipomaquina")
+                    .IsFixedLength();
+
+                entity.Property(e => e.Codusercrea)
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
+                    .HasColumnName("codusercrea");
+
+                entity.Property(e => e.Feccrea)
+                    .HasColumnType("datetime")
+                    .HasColumnName("feccrea");
+
+                entity.Property(e => e.Marca)
+                    .HasMaxLength(200)
+                    .IsUnicode(false)
+                    .HasColumnName("marca");
+
+                entity.Property(e => e.Modelo)
+                    .HasMaxLength(200)
+                    .IsUnicode(false)
+                    .HasColumnName("modelo");
+
+                entity.Property(e => e.Ninventario)
+                    .HasMaxLength(150)
+                    .IsUnicode(false)
+                    .HasColumnName("ninventario");
+
+                entity.Property(e => e.Nombremaquina)
+                    .HasMaxLength(150)
+                    .IsUnicode(false)
+                    .HasColumnName("nombremaquina");
+
+                entity.Property(e => e.Nserie)
+                    .HasMaxLength(150)
+                    .IsUnicode(false)
+                    .HasColumnName("nserie");
+
+                entity.Property(e => e.Observacion)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("observacion");
             });
 
             modelBuilder.Entity<MasterTable>(entity =>

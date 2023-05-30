@@ -1,5 +1,11 @@
 using CMS_System.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.SignalR;
+
+static void ConfigureSignalR(IServiceCollection services)
+{
+    services.AddSignalR(); // Agrega el servicio de SignalR
+}
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +15,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+ConfigureSignalR(builder.Services);
+
 
 builder.Services.AddSwaggerGen(c =>
 {
@@ -37,9 +45,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors(builder => builder.WithOrigins("https://localhost:7106",
-                                           "http://localhost:5106",
-                                           "http://localhost:4200/", "*")
+app.UseCors(builder => builder.WithOrigins("https://localhost:7106", "http://localhost:5106", "http://localhost:4200/", "*")
             .AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
 app.UseHttpsRedirection();
