@@ -32,7 +32,9 @@ namespace CMS_System.Controllers
             {
 
                 if (!Directory.Exists(assetsPath))
+                {
                     Directory.CreateDirectory(assetsPath);
+                }
 
                 if (!Directory.Exists(imagePath))
                 {
@@ -55,13 +57,57 @@ namespace CMS_System.Controllers
             }
         }
 
+        //[HttpGet]
+        //[Route("GetImageControl/{route}")]
+        //public async Task<IActionResult> GetImageControl([FromRoute] string route )
+        //{
+        //    string fileModelpath = Path.Combine(Directory.GetCurrentDirectory(), "fileModel");
+        //    string assetsPath = Path.Combine(fileModelpath, "Assets");
+        //    //Console.WriteLine( await  )
+        //    string rutafinal = Path.Combine(assetsPath, route);
+
+        //    if( Directory.Exists(assetsPath) )
+        //    {
+        //        var response = new { url = rutafinal };
+        //        return Ok(response);
+        //    }
+        //    else
+        //    {
+        //        return BadRequest("No existe esta ruta: " + rutafinal );
+        //    }
+
+        //}
+
+        [HttpGet]
+        [Route("GetImageControl/{route}")]
+        public IActionResult GetImageControl([FromRoute] string route)
+        {
+            string fileModelpath = Path.Combine(Directory.GetCurrentDirectory(), "fileModel");
+            string assetsPath = Path.Combine(fileModelpath, "Assets");
+            string imagePath = Path.Combine(assetsPath, route, route + ".jpg");
+
+            if (Directory.Exists(assetsPath))
+            {
+                string baseUrl = Request.Scheme + "://" + Request.Host.Value;
+                string imageUrl = Path.Combine(baseUrl, imagePath.Replace("\\", "/"));
+
+                var response = new { url = imageUrl };
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest("No existe esta ruta: " + imagePath);
+            }
+        }
+
+
         [HttpPost]
         [Route("saveImagen")]
-        public async Task<IActionResult> saveImagen([FromBody] Imgfile model)
+        public async Task<IActionResult> saveImagen([FromBody] ImgFile model)
         {
             if (ModelState.IsValid)
             {
-                _context.Imgfile.Add(model);
+                _context.ImgFile.Add(model);
                 if (await _context.SaveChangesAsync() > 0)
                 {
                     return Ok(model);
@@ -78,8 +124,8 @@ namespace CMS_System.Controllers
         }
 
 
-        [HttpGet("obtenerImagen/{cUser}/{tp}")]
-        public async Task<IActionResult> obtenerImagen([FromRoute] string cUser, [FromRoute] string tp)
+        [HttpGet("obtenerImagen/{cbinding}/{tp}")]
+        public async Task<IActionResult> obtenerImagen([FromRoute] string cbinding, [FromRoute] string tp)
         {
 
             string Sentencia = " select * from imgfile where codentidad = @cBinding and tipo = @tipo ";
@@ -91,7 +137,7 @@ namespace CMS_System.Controllers
                 {
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     adapter.SelectCommand.CommandType = CommandType.Text;
-                    adapter.SelectCommand.Parameters.Add(new SqlParameter("@cBinding", cUser));
+                    adapter.SelectCommand.Parameters.Add(new SqlParameter("@cBinding", cbinding));
                     adapter.SelectCommand.Parameters.Add(new SqlParameter("@tipo", tp));
                     adapter.Fill(dt);
                 }
@@ -103,6 +149,22 @@ namespace CMS_System.Controllers
             }
 
             return Ok(dt);
+
+        }
+
+        [HttpPut]
+        [Route("EditarImagen/{codbinding}")]
+        public async Task<IActionResult> EditarImagen([FromRoute] string codbinding, [FromBody] ImgFile model)
+        {
+
+            if (codbinding != model.Codentidad)
+            {
+                return BadRequest("No existe el usuario");
+            }
+
+            _context.Entry(model).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return Ok(model);
 
         }
 

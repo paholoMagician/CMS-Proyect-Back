@@ -22,11 +22,13 @@ namespace CMS_System.Models
         public virtual DbSet<AsignModUser> AsignModUser { get; set; }
         public virtual DbSet<Asignacionmaquinaria> Asignacionmaquinaria { get; set; }
         public virtual DbSet<Asignacionprovincias> Asignacionprovincias { get; set; }
+        public virtual DbSet<AuditApp> AuditApp { get; set; }
         public virtual DbSet<Auditoria> Auditoria { get; set; }
+        public virtual DbSet<Bodegas> Bodegas { get; set; }
         public virtual DbSet<Cliente> Cliente { get; set; }
         public virtual DbSet<Empresa> Empresa { get; set; }
         public virtual DbSet<FileControl> FileControl { get; set; }
-        public virtual DbSet<Imgfile> Imgfile { get; set; }
+        public virtual DbSet<ImgFile> ImgFile { get; set; }
         public virtual DbSet<Maquinaria> Maquinaria { get; set; }
         public virtual DbSet<MasterTable> MasterTable { get; set; }
         public virtual DbSet<Modulo> Modulo { get; set; }
@@ -252,6 +254,41 @@ namespace CMS_System.Models
                     .HasColumnName("fechamod");
             });
 
+            modelBuilder.Entity<AuditApp>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Api)
+                    .HasMaxLength(1000)
+                    .IsUnicode(false)
+                    .HasColumnName("api");
+
+                entity.Property(e => e.Coduser)
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
+                    .HasColumnName("coduser");
+
+                entity.Property(e => e.ConsumoMb)
+                    .HasColumnType("decimal(10, 10)")
+                    .HasColumnName("consumoMb");
+
+                entity.Property(e => e.Fechaconsumo)
+                    .HasColumnType("datetime")
+                    .HasColumnName("fechaconsumo");
+
+                entity.Property(e => e.Ip)
+                    .HasMaxLength(500)
+                    .HasColumnName("IP")
+                    .IsFixedLength();
+
+                entity.Property(e => e.Method)
+                    .HasMaxLength(80)
+                    .IsUnicode(false)
+                    .HasColumnName("method");
+
+                entity.Property(e => e.Milisegundos).HasColumnName("milisegundos");
+            });
+
             modelBuilder.Entity<Auditoria>(entity =>
             {
                 entity.HasKey(e => e.Codaudit);
@@ -297,6 +334,42 @@ namespace CMS_System.Models
                     .HasMaxLength(150)
                     .IsUnicode(false)
                     .HasColumnName("ip");
+            });
+
+            modelBuilder.Entity<Bodegas>(entity =>
+            {
+                entity.ToTable("bodegas");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Clase)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("clase");
+
+                entity.Property(e => e.Codprod)
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
+                    .HasColumnName("codprod");
+
+                entity.Property(e => e.Codusercrea)
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
+                    .HasColumnName("codusercrea");
+
+                entity.Property(e => e.Descripcion)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("descripcion");
+
+                entity.Property(e => e.Fecrea)
+                    .HasColumnType("datetime")
+                    .HasColumnName("fecrea");
+
+                entity.Property(e => e.Nombrebodega)
+                    .HasMaxLength(150)
+                    .IsUnicode(false)
+                    .HasColumnName("nombrebodega");
             });
 
             modelBuilder.Entity<Cliente>(entity =>
@@ -467,26 +540,27 @@ namespace CMS_System.Models
                     .HasColumnName("url");
             });
 
-            modelBuilder.Entity<Imgfile>(entity =>
+            modelBuilder.Entity<ImgFile>(entity =>
             {
-                entity.ToTable("imgfile");
+                entity.HasKey(e => e.Codentidad)
+                    .HasName("PK_imgFile1_1");
 
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.ToTable("imgFile");
 
                 entity.Property(e => e.Codentidad)
                     .HasMaxLength(30)
                     .IsUnicode(false)
                     .HasColumnName("codentidad");
 
+                entity.Property(e => e.Imagen)
+                    .IsRequired()
+                    .IsUnicode(false)
+                    .HasColumnName("imagen");
+
                 entity.Property(e => e.Tipo)
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("tipo");
-
-                entity.Property(e => e.Urlruta)
-                    .HasMaxLength(500)
-                    .IsUnicode(false)
-                    .HasColumnName("urlruta");
             });
 
             modelBuilder.Entity<Maquinaria>(entity =>
@@ -520,6 +594,8 @@ namespace CMS_System.Models
                     .HasMaxLength(30)
                     .IsUnicode(false)
                     .HasColumnName("codusercrea");
+
+                entity.Property(e => e.Contador).HasColumnName("contador");
 
                 entity.Property(e => e.Feccrea)
                     .HasColumnType("datetime")

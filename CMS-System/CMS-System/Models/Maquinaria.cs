@@ -19,5 +19,6 @@ namespace CMS_System.Models
         public string Codusercrea { get; set; }
         public DateTime? Feccrea { get; set; }
         public string Codcia { get; set; }
+        public int? Contador { get; set; }
     }
 }

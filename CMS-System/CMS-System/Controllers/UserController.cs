@@ -70,6 +70,33 @@ namespace CMS_System.Controllers
 
         }
 
+        [HttpGet("ObtenerCuentaUsuario/{coduser}")]
+        public async Task<IActionResult> ObtenerCuentaUsuario([FromRoute] string coduser)
+        {
+
+            string Sentencia = " select * from usuario where coduser = @cuser ";
+
+            DataTable dt = new DataTable();
+            using (SqlConnection connection = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(Sentencia, connection))
+                {
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    adapter.SelectCommand.CommandType = CommandType.Text;
+                    adapter.SelectCommand.Parameters.Add(new SqlParameter("@cuser", coduser));
+                    adapter.Fill(dt);
+                }
+            }
+
+            if (dt == null)
+            {
+                return NotFound("No pudimos traer el usuario...");
+            }
+
+            return Ok(dt);
+
+        }
+
         //[HttpGet("GetUser/{userCod}")]
         //public async Task<IActionResult> GetModulos([FromRoute] string userCod)
         //{

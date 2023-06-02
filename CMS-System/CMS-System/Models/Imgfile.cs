@@ -5,11 +5,10 @@ using System.Collections.Generic;
 
 namespace CMS_System.Models
 {
-    public partial class Imgfile
+    public partial class ImgFile
     {
-        public int Id { get; set; }
         public string Codentidad { get; set; }
-        public string Urlruta { get; set; }
+        public string Imagen { get; set; }
         public string Tipo { get; set; }
     }
 }

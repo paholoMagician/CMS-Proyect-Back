@@ -31,7 +31,15 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[AuditApp]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[auditoria]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[bodegas]",
          "ObjectType": 0
       },
       {
@@ -43,7 +51,11 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[imgfile]",
+         "Name": "[dbo].[FileControl]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[imgFile]",
          "ObjectType": 0
       },
       {
@@ -71,7 +83,7 @@
          "ObjectType": 0
       }
    ],
-   "UiHint": "desktop-bulgfej\\sqlexpress.CMS-Software-control.dbo",
+   "UiHint": "desktop-bp9emvl\\sqlexpress.CMS-Software-control.dbo",
    "UncountableWords": null,
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": false,

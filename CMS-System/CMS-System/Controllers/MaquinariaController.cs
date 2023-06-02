@@ -46,11 +46,11 @@ namespace CMS_System.Controllers
 
         }
 
-        [HttpGet("eliminarMaquinaria/{codmaquina}/{codcia}")]
-        public async Task<IActionResult> obtenerMaquinaria([FromRoute] string codmaquina, [FromRoute] string codcia)
+        [HttpGet("eliminarMaquinaria/{codmaquina}")]
+        public async Task<IActionResult> eliminarMaquinaria([FromRoute] string codmaquina)
         {
 
-            string Sentencia = " delete from maquinaria where codmaquina = @cmaquina and codcia = @ccia ";
+            string Sentencia = " exec EliminarMaquinaria @cmaquina ";
 
             DataTable dt = new DataTable();
             using (SqlConnection connection = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
@@ -60,7 +60,6 @@ namespace CMS_System.Controllers
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     adapter.SelectCommand.CommandType = CommandType.Text;
                     adapter.SelectCommand.Parameters.Add(new SqlParameter("@cmaquina", codmaquina));
-                    adapter.SelectCommand.Parameters.Add(new SqlParameter("@ccia", codcia));
                     adapter.Fill(dt);
                 }
             }
