@@ -71,6 +71,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[prodbodegasigna]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[usuario]",
          "ObjectType": 0
       },

@@ -5,13 +5,12 @@ using System.Collections.Generic;
 
 namespace CMS_System.Models
 {
-    public partial class Bodegas
+    public partial class Prodbodegasigna
     {
-        public int Id { get; set; }
-        public string Nombrebodega { get; set; }
-        public string Descripcion { get; set; }
+        public string Codmaquinaria { get; set; }
+        public int? Codbodega { get; set; }
         public DateTime? Fecrea { get; set; }
-        public string Codusercrea { get; set; }
-        public string Ccia { get; set; }
+        public int Codmaquinariabodega { get; set; }
+        public string Coduser { get; set; }
     }
 }

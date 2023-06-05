@@ -46,6 +46,34 @@ namespace CMS_System.Controllers
 
         }
 
+        [HttpGet("obtenerMaquinariaIMG")]
+        public async Task<IActionResult> obtenerMaquinariaIMG()
+        {
+
+            string Sentencia = " select imf.imagen, mq.* from maquinaria as mq" +
+                               " left join imgFile as imf on imf.codentidad = 'IMG-'+mq.codmaquina ";
+
+            DataTable dt = new DataTable();
+            using (SqlConnection connection = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(Sentencia, connection))
+                {
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    adapter.SelectCommand.CommandType = CommandType.Text;
+                    //adapter.SelectCommand.Parameters.Add(new SqlParameter("@ccia", codcia));
+                    adapter.Fill(dt);
+                }
+            }
+
+            if (dt == null)
+            {
+                return NotFound("No se hemos traido la maquinaria...");
+            }
+
+            return Ok(dt);
+
+        }
+
         [HttpGet("eliminarMaquinaria/{codmaquina}")]
         public async Task<IActionResult> eliminarMaquinaria([FromRoute] string codmaquina)
         {

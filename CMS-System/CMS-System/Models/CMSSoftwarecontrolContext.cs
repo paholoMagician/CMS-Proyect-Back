@@ -32,6 +32,7 @@ namespace CMS_System.Models
         public virtual DbSet<Maquinaria> Maquinaria { get; set; }
         public virtual DbSet<MasterTable> MasterTable { get; set; }
         public virtual DbSet<Modulo> Modulo { get; set; }
+        public virtual DbSet<Prodbodegasigna> Prodbodegasigna { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
         public virtual DbSet<VersionCms> VersionCms { get; set; }
         public virtual DbSet<Versionamiento> Versionamiento { get; set; }
@@ -342,15 +343,10 @@ namespace CMS_System.Models
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Clase)
-                    .HasMaxLength(20)
-                    .IsUnicode(false)
-                    .HasColumnName("clase");
-
-                entity.Property(e => e.Codprod)
+                entity.Property(e => e.Ccia)
                     .HasMaxLength(30)
                     .IsUnicode(false)
-                    .HasColumnName("codprod");
+                    .HasColumnName("ccia");
 
                 entity.Property(e => e.Codusercrea)
                     .HasMaxLength(30)
@@ -730,6 +726,32 @@ namespace CMS_System.Models
                     .HasMaxLength(100)
                     .IsUnicode(false)
                     .HasColumnName("moduleName");
+            });
+
+            modelBuilder.Entity<Prodbodegasigna>(entity =>
+            {
+                entity.HasKey(e => e.Codmaquinariabodega)
+                    .HasName("PK_maquinariabodega");
+
+                entity.ToTable("prodbodegasigna");
+
+                entity.Property(e => e.Codmaquinariabodega).HasColumnName("codmaquinariabodega");
+
+                entity.Property(e => e.Codbodega).HasColumnName("codbodega");
+
+                entity.Property(e => e.Codmaquinaria)
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
+                    .HasColumnName("codmaquinaria");
+
+                entity.Property(e => e.Coduser)
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
+                    .HasColumnName("coduser");
+
+                entity.Property(e => e.Fecrea)
+                    .HasColumnType("datetime")
+                    .HasColumnName("fecrea");
             });
 
             modelBuilder.Entity<Usuario>(entity =>

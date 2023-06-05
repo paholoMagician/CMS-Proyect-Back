@@ -7,30 +7,32 @@ using System.Data;
 
 namespace CMS_System.Controllers
 {
-    [Route("api/Bodegas")]
+    [Route("api/AsignarProductoBodega")]
     [ApiController]
-    public class BodegasController : ControllerBase
+    public class ProdBodAsigController : ControllerBase
     {
 
-        private readonly CMSSoftwarecontrolContext _context;
-        public BodegasController(CMSSoftwarecontrolContext context)
-        {
+        readonly CMSSoftwarecontrolContext _context;
+
+        public ProdBodAsigController( CMSSoftwarecontrolContext context ) {
+        
             _context = context;
+        
         }
 
         [HttpPost]
-        [Route("guardarBodegas")]
-        public async Task<IActionResult> guardarBodegas([FromBody] Bodegas model)
+        [Route("guardarProductoBodega")]
+        public async Task<IActionResult> guardarProductoBodega([FromBody] Prodbodegasigna model)
         {
 
-            if (_context.Bodegas.Any(c => c.Nombrebodega == model.Nombrebodega))
-            {
-                return BadRequest("Esta bodega ya se registró");
-            }
+            //if (_context.Prodbodegasigna.Any(c => c.Codmaquinariabodega == model.Codmaquinariabodega))
+            //{
+            //    return BadRequest("Este producto ya existe en esta bodega");
+            //}
 
             if (ModelState.IsValid)
             {
-                _context.Bodegas.Add(model);
+                _context.Prodbodegasigna.Add(model);
                 if (await _context.SaveChangesAsync() > 0)
                 {
                     return Ok(model);
@@ -46,11 +48,11 @@ namespace CMS_System.Controllers
             }
         }
 
-        [HttpGet("obtenerBodegas/{codcia}")]
-        public async Task<IActionResult> obtenerBodegas([FromRoute] string codcia)
+        [HttpGet("obtenerItemsBodega/{codbod}")]
+        public async Task<IActionResult> obtenerItemsBodega([FromRoute] int codbod)
         {
 
-            string Sentencia = " select * from bodegas where ccia = @ccia ";
+            string Sentencia = " exec ObtenerItemsBodegas @codbodega ";
 
             DataTable dt = new DataTable();
             using (SqlConnection connection = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
@@ -59,7 +61,7 @@ namespace CMS_System.Controllers
                 {
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     adapter.SelectCommand.CommandType = CommandType.Text;
-                    adapter.SelectCommand.Parameters.Add(new SqlParameter("@ccia", codcia));
+                    adapter.SelectCommand.Parameters.Add(new SqlParameter("@codbodega", codbod));
                     adapter.Fill(dt);
                 }
             }
@@ -73,12 +75,11 @@ namespace CMS_System.Controllers
 
         }
 
-
-        [HttpGet("eliminarBodegas/{id}")]
-        public async Task<IActionResult> eliminarBodegas([FromRoute] int id)
+        [HttpGet("eliminarItemBodega/{codbod}")]
+        public async Task<IActionResult> eliminarItemBodega([FromRoute] int codbod)
         {
 
-            string Sentencia = " delete from bodegas where id = @Ids ";
+            string Sentencia = " delete from prodbodegasigna where codmaquinariabodega = @codmaquinariabodega ";
 
             DataTable dt = new DataTable();
             using (SqlConnection connection = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
@@ -87,7 +88,7 @@ namespace CMS_System.Controllers
                 {
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     adapter.SelectCommand.CommandType = CommandType.Text;
-                    adapter.SelectCommand.Parameters.Add(new SqlParameter("@Ids", id));
+                    adapter.SelectCommand.Parameters.Add(new SqlParameter("@codmaquinariabodega", codbod));
                     adapter.Fill(dt);
                 }
             }
@@ -98,22 +99,6 @@ namespace CMS_System.Controllers
             }
 
             return Ok(dt);
-
-        }
-
-        [HttpPut]
-        [Route("EditarBodegas/{id}")]
-        public async Task<IActionResult> EditarBodegas([FromRoute] int id, [FromBody] Bodegas model)
-        {
-
-            if (id != model.Id)
-            {
-                return BadRequest("No existe el usuario");
-            }
-
-            _context.Entry(model).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-            return Ok(model);
 
         }
 
