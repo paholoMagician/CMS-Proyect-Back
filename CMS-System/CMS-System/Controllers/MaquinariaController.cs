@@ -101,6 +101,64 @@ namespace CMS_System.Controllers
 
         }
 
+        [HttpGet("ObtenerMaquinasSinBodega/{codcia}/{option}")]
+        public async Task<IActionResult> ObtenerMaquinasSinBodega([FromRoute] string codcia, [FromRoute] int option)
+        {
+
+            string Sentencia = " exec ObtenerMaquinasSinBodega @ccia, @opt ";
+
+            DataTable dt = new DataTable();
+            using (SqlConnection connection = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(Sentencia, connection))
+                {
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    adapter.SelectCommand.CommandType = CommandType.Text;
+                    adapter.SelectCommand.Parameters.Add(new SqlParameter("@ccia", codcia));
+                    adapter.SelectCommand.Parameters.Add(new SqlParameter("@opt", option));
+                    adapter.Fill(dt);
+                }
+            }
+
+            if (dt == null)
+            {
+                return NotFound("No se ha pudo obtener...");
+            }
+
+            return Ok(dt);
+
+        }
+
+        [HttpGet("ObtenerMaquinaUnit/{codmaquina}/{codcia}")]
+        public async Task<IActionResult> ObtenerMaquinaUnit([FromRoute] string codmaquina, [FromRoute] string codcia)
+        {
+
+            string Sentencia = " select imf.imagen, mq.* from maquinaria as mq"+
+                               " left join imgFile as  imf on imf.codentidad = 'IMG-'+'" + codmaquina +"'" +
+                               " where codmaquina = @cmaquina and mq.codcia = @ccia ";
+
+            DataTable dt = new DataTable();
+            using (SqlConnection connection = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(Sentencia, connection))
+                {
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    adapter.SelectCommand.CommandType = CommandType.Text;
+                    adapter.SelectCommand.Parameters.Add(new SqlParameter("@cmaquina", codmaquina));
+                    adapter.SelectCommand.Parameters.Add(new SqlParameter("@ccia", codcia));
+                    adapter.Fill(dt);
+                }
+            }
+
+            if (dt == null)
+            {
+                return NotFound("No se ha pudo obtener...");
+            }
+
+            return Ok(dt);
+
+        }
+
 
         [HttpPost]
         [Route("GuardarMaquinaria")]

@@ -50,7 +50,7 @@ namespace CMS_System.Controllers
         public async Task<IActionResult> obtenerBodegas([FromRoute] string codcia)
         {
 
-            string Sentencia = " select * from bodegas where ccia = @ccia ";
+            string Sentencia = " exec obtenerBodegas @ccia ";
 
             DataTable dt = new DataTable();
             using (SqlConnection connection = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
@@ -78,7 +78,8 @@ namespace CMS_System.Controllers
         public async Task<IActionResult> eliminarBodegas([FromRoute] int id)
         {
 
-            string Sentencia = " delete from bodegas where id = @Ids ";
+            string Sentencia = " delete from bodegas where id = @Ids;" +
+                " delete from prodbodegasigna where codbodega = @Ids;  ";
 
             DataTable dt = new DataTable();
             using (SqlConnection connection = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
