@@ -48,11 +48,11 @@ namespace CMS_System.Controllers
             }
         }
 
-        [HttpGet("obtenerItemsBodega/{codbod}")]
-        public async Task<IActionResult> obtenerItemsBodega([FromRoute] int codbod)
+        [HttpGet("obtenerItemsBodega/{codbod}/{estado}")]
+        public async Task<IActionResult> obtenerItemsBodega([FromRoute] int codbod, [FromRoute] int estado)
         {
 
-            string Sentencia = " exec ObtenerItemsBodegas @codbodega ";
+            string Sentencia = " exec ObtenerItemsBodegas @codbodega, @state ";
 
             DataTable dt = new DataTable();
             using (SqlConnection connection = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
@@ -62,13 +62,13 @@ namespace CMS_System.Controllers
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     adapter.SelectCommand.CommandType = CommandType.Text;
                     adapter.SelectCommand.Parameters.Add(new SqlParameter("@codbodega", codbod));
+                    adapter.SelectCommand.Parameters.Add(new SqlParameter("@state", estado));
                     adapter.Fill(dt);
                 }
             }
 
-            if (dt == null)
-            {
-                return NotFound("No se ha podido crear...");
+            if (dt == null) { 
+                return NotFound("No se ha podido crear..."); 
             }
 
             return Ok(dt);

@@ -51,11 +51,23 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[entytrancab]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[entytrandet]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[FileControl]",
          "ObjectType": 0
       },
       {
          "Name": "[dbo].[imgFile]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[invmov]",
          "ObjectType": 0
       },
       {

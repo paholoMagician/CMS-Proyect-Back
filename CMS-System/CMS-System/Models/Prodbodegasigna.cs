@@ -7,10 +7,11 @@ namespace CMS_System.Models
 {
     public partial class Prodbodegasigna
     {
+        public int Codmaquinariabodega { get; set; }
         public string Codmaquinaria { get; set; }
         public int? Codbodega { get; set; }
         public DateTime? Fecrea { get; set; }
-        public int Codmaquinariabodega { get; set; }
         public string Coduser { get; set; }
+        public int? Estado { get; set; }
     }
 }
