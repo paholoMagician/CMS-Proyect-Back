@@ -24,5 +24,7 @@ namespace CMS_System.Models
         public string Tipo { get; set; }
         public string NombreMantenimiento { get; set; }
         public string NombrePago { get; set; }
+        public string Extension1 { get; set; }
+        public string Extension2 { get; set; }
     }
 }

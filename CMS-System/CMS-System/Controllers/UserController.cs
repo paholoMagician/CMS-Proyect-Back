@@ -74,7 +74,12 @@ namespace CMS_System.Controllers
         public async Task<IActionResult> ObtenerCuentaUsuario([FromRoute] string coduser)
         {
 
-            string Sentencia = " select * from usuario where coduser = @cuser ";
+            string Sentencia = " select mt4.nombre as nombrecargo, mt3.nombre as departamentonombre, mt1.nombre as nombretipo, mt2.nombre as estadotrabajador, us.* from usuario as us " +
+                               " left join MasterTable as mt1 on mt1.codigo = us.tipo and mt1.master = 'R20' " +
+                               " left join MasterTable as mt2 on mt2.codigo = us.estado and mt2.master = 'R07' " +
+                               " left join MasterTable as mt3 on mt3.codigo = us.codDepartamento and mt3.master = '008' " +
+                               " left join MasterTable as mt4 on mt4.codigo = us.cargo and mt4.master = 'R03' " +
+                               " where coduser = @cuser ";
 
             DataTable dt = new DataTable();
             using (SqlConnection connection = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))

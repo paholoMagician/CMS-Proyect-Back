@@ -50,9 +50,9 @@
               "target": "Package",
               "version": "[6.0.16, )"
             },
-            "Microsoft.AspNetCore.SignalR.Common": {
+            "Microsoft.AspNetCore.SignalR.Client": {
               "target": "Package",
-              "version": "[7.0.5, )"
+              "version": "[6.0.18, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",

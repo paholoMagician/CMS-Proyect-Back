@@ -12,5 +12,6 @@ namespace CMS_System.Models
         public int? State { get; set; }
         public string CodCia { get; set; }
         public int? OrderMod { get; set; }
+        public int? Permisos { get; set; }
     }
 }

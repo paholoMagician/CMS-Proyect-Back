@@ -19,6 +19,14 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[agencia1]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[asignacionmaquinacliente]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[asignacionmaquinaria]",
          "ObjectType": 0
       },
@@ -44,6 +52,10 @@
       },
       {
          "Name": "[dbo].[cliente]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[contrato]",
          "ObjectType": 0
       },
       {
@@ -75,7 +87,15 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[marca]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[MasterTable]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[modelo]",
          "ObjectType": 0
       },
       {

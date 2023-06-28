@@ -5,7 +5,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using Microsoft.AspNetCore.SignalR;
-using CMS_System.Signal;
+ 
 
 namespace CMS_System.Controllers
 {
@@ -15,12 +15,10 @@ namespace CMS_System.Controllers
     {
 
         private readonly CMSSoftwarecontrolContext _context;
-        private readonly IHubContext<ChatHub> _hubContext;
 
-        public ClientesAgenciasController(CMSSoftwarecontrolContext context, IHubContext<ChatHub> hubContext)
+        public ClientesAgenciasController(CMSSoftwarecontrolContext context)
         {
             _context = context;
-            _hubContext = hubContext;
         }
 
         [HttpGet("obtenerClientes/{ccia}")]

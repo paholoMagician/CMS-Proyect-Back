@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
+using System.Text.RegularExpressions;
 
 namespace CMS_System.Controllers.TransferenciasProd
 {
@@ -17,6 +18,72 @@ namespace CMS_System.Controllers.TransferenciasProd
         public TransfereciasController(CMSSoftwarecontrolContext context)
         {
             _context = context;
+        }
+
+        //[HttpGet]
+        //[Route("obtenerDetalleTrans/{codcabe}")]
+        //public async Task<IActionResult> obtenerDetalleTrans([FromRoute] string codcabe)
+        //{
+        //    var query = from edet in _context.Entytrandet
+        //                join mq in _context.Maquinaria on edet.Codprod equals mq.Codmaquina
+        //                join mt in _context.MasterTable on new { Codtipomaquina = mq.Codtipomaquina, Master = "MQT" } 
+        //                equals new { Codtipomaquina = mt.Codigo, Master = mt.Master }
+        //                where edet.Codtran == codcabe select new
+        //                {
+        //                    nombremaquina = mt.Nombre,
+        //                    mq.Nserie,
+        //                    mq.Marca,
+        //                    mq.Modelo,
+        //                    edet.Codtrandet,
+        //                    edet.Codtran,
+        //                    edet.Descripcion,
+        //                    edet.Codusercrea,
+        //                    edet.Codprod,
+        //                    edet.Fecrea
+        //                };
+
+        //    var result = await query.ToListAsync();
+
+        //    if (result == null)
+        //    {
+        //        return NotFound("No se ha podido obtener el detalle de items para el kardex...");
+        //    }
+
+        //    return Ok(result);
+        //}
+
+
+        [HttpGet]
+        [Route("obtenerDetalleTrans/{codcabe}")]
+        public async Task<IActionResult> obtenerDetalleTrans([FromRoute] string codcabe)
+        {
+
+            string Sentencia = " select mt.nombre as nombremaquina, mq.nserie, mc.nombremarca, mq.marca, mq.modelo, md.nombremodelo, edet.* from entytrandet as edet "
+                               + " left join maquinaria as mq on mq.codmaquina = edet.codprod "
+                               + " left join MasterTable as mt on mt.codigo = mq.codtipomaquina and master = 'MQT' " 
+                               + " left join marca as mc on mc.codmarca = mq.marca and mc.codigotipomaq = mq.codtipomaquina " 
+                               + " left join modelo as md on md.codmodelo = mq.modelo and md.codmarca = mq.marca and md.codigotipomaq = mq.codtipomaquina " 
+                               + " where edet.codtran = @codcab ";
+
+            DataTable dt = new DataTable();
+            using (SqlConnection connection = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(Sentencia, connection))
+                {
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    adapter.SelectCommand.CommandType = CommandType.Text;
+                    adapter.SelectCommand.Parameters.Add(new SqlParameter("@codcab", codcabe));
+                    adapter.Fill(dt);
+                }
+            }
+
+            if (dt == null)
+            {
+                return NotFound("No se ha podido crear...");
+            }
+
+            return Ok(dt);
+
         }
 
 
@@ -84,7 +151,7 @@ namespace CMS_System.Controllers.TransferenciasProd
         
         [HttpGet]
         [Route("invmov")]
-        public async Task<IActionResult> invmoc()
+        public async Task<IActionResult> invmov()
         {
 
             string Sentencia = " select * from invmov ";
@@ -110,35 +177,7 @@ namespace CMS_System.Controllers.TransferenciasProd
 
         }
         
-        [HttpGet]
-        [Route("obtenerDetalleTrans/{codcabe}")]
-        public async Task<IActionResult> obtenerDetalleTrans([FromRoute] string codcabe )
-        {
-
-            string Sentencia = " select mq.nombremaquina, mq.nserie, mq.marca, mq.modelo, edet.* from entytrandet as edet " +
-                               " left join maquinaria as mq on mq.codmaquina = edet.codprod " +
-                               " where edet.codtran = @codcab ";
-
-            DataTable dt = new DataTable();
-            using (SqlConnection connection = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
-            {
-                using (SqlCommand cmd = new SqlCommand(Sentencia, connection))
-                {
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    adapter.SelectCommand.CommandType = CommandType.Text;
-                    adapter.SelectCommand.Parameters.Add(new SqlParameter("@codcab", codcabe));
-                    adapter.Fill(dt);
-                }
-            }
-
-            if (dt == null)
-            {
-                return NotFound("No se ha podido crear...");
-            }
-
-            return Ok(dt);
-
-        }
+        
 
 
         [HttpPost]

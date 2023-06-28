@@ -1,4 +1,5 @@
-﻿using CMS_System.Models;
+﻿using CMS_System.Controllers.fileController;
+using CMS_System.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
@@ -129,13 +130,11 @@ namespace CMS_System.Controllers
 
         }
 
-        [HttpGet("ObtenerMaquinaUnit/{codmaquina}/{codcia}")]
-        public async Task<IActionResult> ObtenerMaquinaUnit([FromRoute] string codmaquina, [FromRoute] string codcia)
+        [HttpGet("ObtenerMaquinaUnit/{tpmaq}/{mar}/{mod}/{tip}/{codmaquina}")]
+        public async Task<IActionResult> ObtenerMaquinaUnit([FromRoute] string tpmaq, [FromRoute] string mar, [FromRoute] string mod, [FromRoute] int tip, [FromRoute] string codmaquina)
         {
 
-            string Sentencia = " select imf.imagen, mq.* from maquinaria as mq"+
-                               " left join imgFile as  imf on imf.codentidad = 'IMG-'+'" + codmaquina +"'" +
-                               " where codmaquina = @cmaquina and mq.codcia = @ccia ";
+            string Sentencia = " exec ObtenerMaquinaUnit @tpm, @mc, @md, @tp, @cmaquina";
 
             DataTable dt = new DataTable();
             using (SqlConnection connection = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
@@ -144,8 +143,11 @@ namespace CMS_System.Controllers
                 {
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     adapter.SelectCommand.CommandType = CommandType.Text;
-                    adapter.SelectCommand.Parameters.Add(new SqlParameter("@cmaquina", codmaquina));
-                    adapter.SelectCommand.Parameters.Add(new SqlParameter("@ccia", codcia));
+                    adapter.SelectCommand.Parameters.Add(new SqlParameter( "@tpm",      tpmaq      ));
+                    adapter.SelectCommand.Parameters.Add(new SqlParameter( "@mc",       mar        ));
+                    adapter.SelectCommand.Parameters.Add(new SqlParameter( "@md",       mod        ));
+                    adapter.SelectCommand.Parameters.Add(new SqlParameter( "@tp",       tip        ));
+                    adapter.SelectCommand.Parameters.Add(new SqlParameter( "@cmaquina", codmaquina ));
                     adapter.Fill(dt);
                 }
             }
@@ -153,6 +155,34 @@ namespace CMS_System.Controllers
             if (dt == null)
             {
                 return NotFound("No se ha pudo obtener...");
+            }
+
+            return Ok(dt);
+
+        }
+
+        [HttpPost("GuardarImagenProductos")]
+        public async Task<IActionResult> GuardarImagenProductos([FromBody] IMGProd model)
+        {
+
+            string Sentencia = " exec ImgProduct @maq, @img ";
+
+            DataTable dt = new DataTable();
+            using (SqlConnection connection = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(Sentencia, connection))
+                {
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    adapter.SelectCommand.CommandType = CommandType.Text;
+                    adapter.SelectCommand.Parameters.Add(new SqlParameter("@maq", model.codmaquina));
+                    adapter.SelectCommand.Parameters.Add(new SqlParameter("@img", model.img));
+                    adapter.Fill(dt);
+                }
+            }
+
+            if (dt == null)
+            {
+                return NotFound("Ya existe una imagen para este producto...");
             }
 
             return Ok(dt);

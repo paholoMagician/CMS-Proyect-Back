@@ -48,5 +48,60 @@ namespace CMS_System.Controllers
 
         }
 
+
+        [HttpGet("ObtenerDatamasterGrupo/{grupo}")]
+        public async Task<IActionResult> ObtenerDatamasterGrupo([FromRoute] string grupo)
+        {
+
+            string Sentencia = " exec obtenerGruposMarcasMaq @codtipo, '', 1 ";
+
+            DataTable dt = new DataTable();
+            using (SqlConnection connection = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(Sentencia, connection))
+                {
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    adapter.SelectCommand.CommandType = CommandType.Text;
+                    adapter.SelectCommand.Parameters.Add(new SqlParameter("@codtipo", grupo));
+                    adapter.Fill(dt);
+                }
+            }
+
+            if (dt == null)
+            {
+                return NotFound("No se ha podido crear...");
+            }
+
+            return Ok(dt);
+
+        }
+
+        [HttpGet("ObtenerDatamasterSubGrupos/{grupo}/{sgrupo}")]
+        public async Task<IActionResult> ObtenerDatamasterSubGrupos([FromRoute] string grupo, [FromRoute] string sgrupo)
+        {
+
+            string Sentencia = " exec obtenerGruposMarcasMaq @gr, @sgr, 2 ";
+            DataTable dt = new DataTable();
+            using (SqlConnection connection = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(Sentencia, connection))
+                {
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    adapter.SelectCommand.CommandType = CommandType.Text;
+                    adapter.SelectCommand.Parameters.Add(new SqlParameter("@gr",  grupo));
+                    adapter.SelectCommand.Parameters.Add(new SqlParameter("@sgr", sgrupo));
+                    adapter.Fill(dt);
+                }
+            }
+
+            if (dt == null)
+            {
+                return NotFound("No se ha podido crear...");
+            }
+
+            return Ok(dt);
+
+        }
+
     }
 }

@@ -8,7 +8,6 @@ namespace CMS_System.Models
     public partial class Maquinaria
     {
         public string Codmaquina { get; set; }
-        public string Nombremaquina { get; set; }
         public string Codtipomaquina { get; set; }
         public string Observacion { get; set; }
         public string Modelo { get; set; }
@@ -19,6 +18,7 @@ namespace CMS_System.Models
         public string Codusercrea { get; set; }
         public DateTime? Feccrea { get; set; }
         public string Codcia { get; set; }
-        public int? Contador { get; set; }
+        public int? Contadorinicial { get; set; }
+        public int? Contadorfinal { get; set; }
     }
 }
