@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace CMS_System.Models
 {
-    public partial class Agencia
+    public partial class Agencia3
     {
         public string Codagencia { get; set; }
         public string Nombre { get; set; }

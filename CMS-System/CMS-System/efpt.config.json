@@ -23,6 +23,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[agencia3]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[asignacionmaquinacliente]",
          "ObjectType": 0
       },
@@ -55,10 +59,6 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[contrato]",
-         "ObjectType": 0
-      },
-      {
          "Name": "[dbo].[empresa]",
          "ObjectType": 0
       },
@@ -72,6 +72,10 @@
       },
       {
          "Name": "[dbo].[FileControl]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[garantias]",
          "ObjectType": 0
       },
       {

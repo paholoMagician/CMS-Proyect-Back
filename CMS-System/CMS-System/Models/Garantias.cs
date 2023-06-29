@@ -5,20 +5,16 @@ using System.Collections.Generic;
 
 namespace CMS_System.Models
 {
-    public partial class Contrato
+    public partial class Garantias
     {
-        public string Ncontrato { get; set; }
         public string Codcontrato { get; set; }
         public string Descripcionbreve { get; set; }
-        public string Codcli { get; set; }
-        public string Codmaq { get; set; }
-        public string Codtipmant { get; set; }
         public string Codfrec { get; set; }
         public int? Tipo { get; set; }
-        public DateTime? Feccreacontrato { get; set; }
-        public DateTime? Fecfincontrato { get; set; }
         public DateTime? Fecusercrea { get; set; }
         public string Coduser { get; set; }
-        public DateTime? Fechafirmacontrato { get; set; }
+        public string Nombre { get; set; }
+        public string Codtipomant { get; set; }
+        public string Ccia { get; set; }
     }
 }
